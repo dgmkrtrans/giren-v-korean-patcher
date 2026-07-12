@@ -1,0 +1,5 @@
+pillow==11.3.0
+fastapi==0.115.6
+uvicorn[standard]==0.32.1
+PyMySQL==1.1.1
+cryptography==43.0.3

@@ -1,0 +1,19 @@
+#!/usr/bin/env python3
+"""Compatibility entrypoint for the FastAPI web tool."""
+
+from __future__ import annotations
+
+import sys
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from webtool.backend.app.cli import main
+from webtool.backend.app.main import app
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

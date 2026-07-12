@@ -1,0 +1,61 @@
+{
+  "game_id": "ULJS00178",
+  "description": "Gihren no Yabou: Axis no Kyoui V, verified project input set",
+  "files": [
+    {
+      "path": "results/ULJS00178_EBOOT.BIN",
+      "size": 2379040,
+      "sha256": "b8ab86c623183a336a2e9d278e976055a4685f786a6a51fabfe815ebd1d9f7e7"
+    },
+    {
+      "path": "ExtractedISO/PSP_GAME/USRDIR/ZZZPSP0.MKD",
+      "size": 134076416,
+      "sha256": "58cd47868884371e18c62ca8c4e1c30193d8ca87193feabb653835f89a5f70ce"
+    },
+    {
+      "path": "ExtractedISO/PSP_GAME/USRDIR/ZZZPSP1.MKD",
+      "size": 134156288,
+      "sha256": "65dd12fa4059790529e95276e9d89d2fea2b38ef5f1cb979b8443d830842763e"
+    },
+    {
+      "path": "ExtractedISO/PSP_GAME/USRDIR/ZZZPSP2.MKD",
+      "size": 134199296,
+      "sha256": "38b52336927b06984f69b4a61dce81db9ab1a0fc34d987e1c3181459cbddf8ad"
+    },
+    {
+      "path": "ExtractedISO/PSP_GAME/USRDIR/ZZZPSP3.MKD",
+      "size": 134166528,
+      "sha256": "fabd2e952700597aeace4394eabe949ac8df3ca48fea0a9af33ebc25717a131b"
+    },
+    {
+      "path": "ExtractedISO/PSP_GAME/USRDIR/ZZZPSP4.MKD",
+      "size": 133996544,
+      "sha256": "0ef1c424c6067b9922b2aa5243c0470b82b99894e461a138e3993e8787d5eabb"
+    },
+    {
+      "path": "ExtractedISO/PSP_GAME/USRDIR/ZZZPSP5.MKD",
+      "size": 134193152,
+      "sha256": "ea6cd095ebc0bbfc2a6394b67c6895b844de50e86d8d19a6f243d0d3dd1a28a0"
+    },
+    {
+      "path": "ExtractedISO/PSP_GAME/USRDIR/ZZZPSP6.MKD",
+      "size": 134017024,
+      "sha256": "e50021fffb153bcd89c8aca2764db2d8b72f231a3a1e172056a64283326f507e"
+    },
+    {
+      "path": "ExtractedISO/PSP_GAME/USRDIR/ZZZPSP7.MKD",
+      "size": 134148096,
+      "sha256": "4d44cfae5dcc81dd303742bab8e6b5f31d1ff6c6b07fbb3a7c6426099325f726"
+    },
+    {
+      "path": "ExtractedISO/PSP_GAME/USRDIR/ZZZPSP8.MKD",
+      "size": 133951488,
+      "sha256": "49d32d1b88c654f1192ff1cfd9ba8966a283b17c7b102ef956a97497c0c9b30e"
+    },
+    {
+      "path": "ExtractedISO/PSP_GAME/USRDIR/ZZZPSP9.MKD",
+      "size": 78917632,
+      "sha256": "60fd11105b64ac35b8151b998cb49ca3df46ccfa2e90c4e63a1e55b6ceff84e8"
+    }
+  ]
+}

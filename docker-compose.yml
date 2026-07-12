@@ -1,0 +1,48 @@
+services:
+  mysql:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: "${MYSQL_DATABASE:-gihren_webtool}"
+      MYSQL_USER: "${MYSQL_USER:-webtool}"
+      MYSQL_PASSWORD: "${MYSQL_PASSWORD:-webtool}"
+      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD:-webtool_root}"
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -u$${MYSQL_USER} -p$${MYSQL_PASSWORD} --silent"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  webtool:
+    build:
+      context: .
+      dockerfile: webtool/Dockerfile
+    ports:
+      - "${WEBTOOL_PORT:-8765}:8765"
+    environment:
+      WEBTOOL_DATABASE_URL: "mysql://${MYSQL_USER:-webtool}:${MYSQL_PASSWORD:-webtool}@mysql:3306/${MYSQL_DATABASE:-gihren_webtool}?charset=utf8mb4"
+      WEBTOOL_ALLOWED_HOSTS: "${WEBTOOL_ALLOWED_HOSTS:-localhost,127.0.0.1}"
+      WEBTOOL_SECURE_COOKIE: "${WEBTOOL_SECURE_COOKIE:-false}"
+      WEBTOOL_SIGNUP_ENABLED: "${WEBTOOL_SIGNUP_ENABLED:-true}"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./assets:/app/assets
+      - ./ExtractedISO:/app/ExtractedISO
+      - ./unpacked_mkd:/app/unpacked_mkd
+      - ./textures_static:/app/textures_static
+      - ./textures_translated:/app/textures_translated
+      - ./rebuilt_mkd:/app/rebuilt_mkd
+      - ./results:/app/results
+      - ./work:/app/work
+      - ./iso_mkd:/app/iso_mkd
+      - ./webtool_data:/app/webtool_data
+      - ./game-patched.iso:/app/game-patched.iso
+
+volumes:
+  mysql_data:

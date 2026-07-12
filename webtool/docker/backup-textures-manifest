@@ -1,0 +1,79 @@
+#!/usr/bin/env python3
+import os
+import re
+import shutil
+import sys
+from datetime import datetime, timedelta
+from pathlib import Path
+
+
+SOURCE = Path(os.environ.get("TEXTURES_MANIFEST_SOURCE", "/app/textures_static/manifest.csv"))
+BACKUP_DIR = Path(os.environ.get("TEXTURES_MANIFEST_BACKUP_DIR", "/app/textures_static/backup"))
+NAME_RE = re.compile(r"^(\d{2})(\d{2})(\d{2})(\d{2})_manifest\.csv$")
+
+
+def log(message):
+    print(f"[manifest-backup] {message}", flush=True)
+
+
+def parse_backup_time(path, now):
+    match = NAME_RE.match(path.name)
+    if not match:
+        return None
+    yy, month, day, hour = map(int, match.groups())
+    year = 2000 + yy
+    try:
+        backup_time = datetime(year, month, day, hour)
+    except ValueError:
+        return None
+
+    # If a very old YYMMDD timestamp ever wraps around, keep it out of pruning.
+    if backup_time > now + timedelta(days=1):
+        return None
+    return backup_time
+
+
+def prune(now):
+    hourly_cutoff = now - timedelta(hours=24)
+    midnight_cutoff = now - timedelta(days=7)
+    deleted = 0
+
+    for path in BACKUP_DIR.glob("*_manifest.csv"):
+        backup_time = parse_backup_time(path, now)
+        if backup_time is None:
+            continue
+        is_midnight = backup_time.hour == 0
+        should_delete = backup_time < (midnight_cutoff if is_midnight else hourly_cutoff)
+        if should_delete:
+            path.unlink()
+            deleted += 1
+
+    if deleted:
+        log(f"deleted {deleted} expired backup(s)")
+
+
+def main():
+    now = datetime.now()
+    BACKUP_DIR.mkdir(parents=True, exist_ok=True)
+
+    if not SOURCE.is_file():
+        log(f"source not found: {SOURCE}")
+        prune(now)
+        return 0
+
+    target = BACKUP_DIR / f"{now:%y%m%d%H}_manifest.csv"
+    temp = BACKUP_DIR / f".{target.name}.{os.getpid()}.tmp"
+
+    shutil.copy2(SOURCE, temp)
+    os.replace(temp, target)
+    log(f"saved {target}")
+    prune(now)
+    return 0
+
+
+if __name__ == "__main__":
+    try:
+        raise SystemExit(main())
+    except Exception as exc:
+        print(f"[manifest-backup] ERROR: {exc}", file=sys.stderr, flush=True)
+        raise
